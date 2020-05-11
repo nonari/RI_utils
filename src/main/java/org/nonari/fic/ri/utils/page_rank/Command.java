@@ -1,4 +1,4 @@
-package org.nonari.aiseo.application.page_rank;
+package org.nonari.fic.ri.utils.page_rank;
 
 import java.util.List;
 

@@ -1,10 +1,10 @@
-package org.nonari.aiseo.application.page_rank;
+package org.nonari.fic.ri.utils.page_rank;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class Main {
+public class PageRank {
 
 
     public static void main(String[] args) {
