@@ -17,11 +17,17 @@ public class Encoding {
         return unary + Integer.toBinaryString(rem);
     }
 
-    public static int decodeGamma(final String n) {
-        final int k = n.indexOf('1');
-        final int rem = Integer.parseInt(n.substring(k + 1), 2);
+    public static List<Integer> decodeGamma(final String n) {
+        final List<Integer> list = new ArrayList<>();
+        int pos = 0;
+        while (pos < n.length() - 1) {
+            final int k = n.indexOf('1');
+            final int rem = Integer.parseInt(n.substring(k + 1, k + k + 1), 2);
+            list.add((int)(Math.pow(2, k) + rem));
+            pos += k + k + 1;
+        }
 
-        return (int)(Math.pow(2, k) + rem);
+        return list;
     }
 
     public static String encodeDelta(final int n) {
@@ -31,16 +37,24 @@ public class Encoding {
         return gamma + Integer.toBinaryString(n).substring(1);
     }
 
-    public static int decodeDelta(final String n) {
-        final int k = n.indexOf('1');
-        final int gammaLimit = k * 2 + 1;
+    public static List<Integer> decodeDelta(final String n) {
+        final List<Integer> list = new ArrayList<>();
 
-        final String gamma = n.substring(0, gammaLimit);
-        final int l = decodeGamma(gamma) - 1;
+        int pos = 0;
+        while (pos < n.length() - 1) {
+            final int k = n.indexOf('1');
+            final int gammaLimit = k * 2 + 1;
 
-        final int rem = Integer.parseInt("1" + n.substring(gammaLimit + 1), 2);
+            final String gamma = n.substring(0, gammaLimit);
+            final int l = decodeGamma(gamma).get(0) - 1;
 
-        return (int)(Math.pow(2,l) + rem);
+            final int rem = Integer.parseInt("1" + n.substring(gammaLimit + 1, gammaLimit + l), 2);
+
+            list.add((int) (Math.pow(2, l) + rem));
+            pos += gammaLimit + l + 1;
+        }
+
+        return list;
     }
 
     public static String encodeOmega(final int n) {
@@ -59,18 +73,29 @@ public class Encoding {
         return s;
     }
 
-    public static int decodeOmega(String n) {
-        int k = 1;
-        int curr = 0;
-        String d = n.substring(0, 1);
-        while (d.equals("1")) {
-            final int temp = Integer.parseInt(d + n.substring(curr + 1, curr + k + 1), 2);
-            curr += k;
-            k = temp;
-            d = n.substring(curr, curr + 1);
+    public static List<Integer> decodeOmega(String n) {
+        final List<Integer> list = new ArrayList<>();
+        int pos = 0;
+        while (pos < n.length() - 1) {
+            int k = 1;
+            int curr = pos;
+            String d = n.substring(pos, pos + 1);
+            while (d.equals("1")) {
+                if (k == 1) {
+                    curr = 1;
+                    k = 2;
+                }
+                final int temp = Integer.parseInt(d + n.substring(curr, curr + k - 1), 2);
+                curr += k - 1;
+                k = temp;
+                d = n.substring(curr, curr + 1);
+                curr++;
+            }
+            pos += curr;
+            list.add(k);
         }
 
-        return k;
+        return list;
     }
 
     public static String encodeVByte(final int n) {

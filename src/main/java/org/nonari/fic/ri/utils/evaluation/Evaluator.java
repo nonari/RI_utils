@@ -13,17 +13,36 @@ public class Evaluator {
         this.result = result;
     }
 
-    public int precision(final int at) {
-
-        return 0;
+    public float precision(final int at) {
+        return (float) relevantDocsFound(at) / at;
     }
 
-    public int recall(final int at) {
-        return 0;
+    public float recall(final int at) {
+        return (float) relevantDocsFound(at) / this.relev.size();
     }
 
-    public int recallStandard() {
-        return 0;
+    public void recallStandard() {
+        final List<Float> resultAt = new ArrayList<>();
+        int rFound = 0;
+        for (final int doc : this.result) {
+            if (this.relev.contains(doc)) {
+                rFound++;
+            }
+            resultAt.add(((float)rFound / (float) this.relev.size()));
+        }
+
+        int point = 0;
+        for (final float r : resultAt) {
+             if ((point / 10) >= r) {
+
+             } else {
+                 while ((point / 10)<=r) {
+                     System.out.println("At " + (point / 10F) + ": " + r);
+
+                     point++;
+                 }
+             }
+        }
     }
 
     private int relevantDocsFound(final int at) {
@@ -36,7 +55,7 @@ public class Evaluator {
         final ArrayList<Integer> cutCopy = new ArrayList<>(cut);
         cutCopy.removeAll(this.relev);
 
-        return this.result.size() - cutCopy.size();
+        return at - cutCopy.size();
     }
 
 }
