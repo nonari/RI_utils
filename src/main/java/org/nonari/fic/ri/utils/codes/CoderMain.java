@@ -1,8 +1,8 @@
-package org.nonari.fic.ri.utils.elias_codes;
+package org.nonari.fic.ri.utils.codes;
 
 import java.io.IOException;
 
-public class EliasCode {
+public class CoderMain {
 
     public static void main(String[] args) throws IOException {
 
@@ -20,21 +20,25 @@ public class EliasCode {
 
         if ("encode".equals(mode)) {
             if ("gamma".equals(type)) {
-                System.out.println(EliasCoder.encodeGamma(Integer.parseInt(code)));
+                System.out.println(Encoding.encodeGamma(Integer.parseInt(code)));
             } else if ("delta".equals(type)) {
-                System.out.println(EliasCoder.encodeDelta(Integer.parseInt(code)));
+                System.out.println(Encoding.encodeDelta(Integer.parseInt(code)));
             } else if ("omega".equals(type)) {
-                System.out.println(EliasCoder.encodeOmega(Integer.parseInt(code)));
+                System.out.println(Encoding.encodeOmega(Integer.parseInt(code)));
+            } else if ("vbyte".equals(type)) {
+                System.out.println(Encoding.encodeVByte(Integer.parseInt(code)));
             } else {
                 System.out.println("Incorrect type " + type);
             }
         } else if ("decode".equals(mode)) {
             if ("gamma".equals(type)) {
-                System.out.println(EliasCoder.decodeGamma(code));
+                System.out.println(Encoding.decodeGamma(code));
             } else if ("delta".equals(type)) {
-                System.out.println(EliasCoder.decodeDelta(code));
+                System.out.println(Encoding.decodeDelta(code));
             } else if ("omega".equals(type)) {
-                System.out.println(EliasCoder.decodeOmega(code));
+                System.out.println(Encoding.decodeOmega(code));
+            } else if ("vbyte".equals(type)) {
+                System.out.println(Encoding.decodeVByte(code));
             } else {
                 System.out.println("Incorrect type " + type);
             }
