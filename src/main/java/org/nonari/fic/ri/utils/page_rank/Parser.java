@@ -45,6 +45,12 @@ class Parser {
             return new Command("calc", args);
         }
 
+        if (line.matches("power\\s*")){
+            List<Object> args = new ArrayList<>();
+
+            return new Command("power", args);
+        }
+
         return null;
     }
 

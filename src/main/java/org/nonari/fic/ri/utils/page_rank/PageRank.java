@@ -45,6 +45,9 @@ public class PageRank {
                 prCal.calc(g, teleport, iterations);
             }
 
+            if (c.getComm().equals("power")){
+                prCal.power(g, iterations);
+            }
         }
     }
 }

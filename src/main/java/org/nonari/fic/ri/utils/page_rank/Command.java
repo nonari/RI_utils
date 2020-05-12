@@ -2,24 +2,21 @@ package org.nonari.fic.ri.utils.page_rank;
 
 import java.util.List;
 
-//This class represents the command invoked by the user
 class Command {
 
-    //Command name
-    private String comm;
-    //Arguments list
-    private List args;
+    private final String comm;
+    private final List<Object> args;
 
-    Command(String comm, List args){
+    Command(String comm, List<Object> args){
         this.comm = comm;
         this.args = args;
     }
 
-    String getComm() {
+    public String getComm() {
         return comm;
     }
 
-    List getArgs(){
+    public List<Object> getArgs(){
         return args;
     }
 }

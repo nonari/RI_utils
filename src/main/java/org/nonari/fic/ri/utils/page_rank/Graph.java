@@ -4,6 +4,7 @@ import java.util.*;
 
 
 public class Graph {
+
     private Map<Integer, List<Integer>> outgoingByNode = new HashMap<>();
     private Map<Integer, List<Integer>> incomingByNode = new HashMap<>();
 
