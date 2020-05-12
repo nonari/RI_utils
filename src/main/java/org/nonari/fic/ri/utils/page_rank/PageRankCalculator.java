@@ -25,10 +25,12 @@ public class PageRankCalculator {
             for (final int node : nodes) {
                 final float currPR = calcNodePR(graph, node, teleport);
                 this.tempPrByNode.put(node, currPR);
-                System.out.println("Node " + node + " : " + currPR);
             }
             sinksAdjust(graph);
             this.prByNode.putAll(this.tempPrByNode);
+            for (final int node: graph.nodes()) {
+                System.out.println("Node " + node + " : " + this.prByNode.get(node));
+            }
         }
     }
 
