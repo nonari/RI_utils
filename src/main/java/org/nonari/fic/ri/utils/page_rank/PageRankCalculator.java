@@ -26,7 +26,7 @@ public class PageRankCalculator {
                 final float currPR = calcNodePR(graph, node, teleport);
                 this.tempPrByNode.put(node, currPR);
             }
-            sinksAdjust(graph);
+            sinksAdjust(graph, teleport);
             this.prByNode.putAll(this.tempPrByNode);
             for (final int node: graph.nodes()) {
                 System.out.println("Node " + node + " : " + this.prByNode.get(node));
@@ -52,11 +52,11 @@ public class PageRankCalculator {
         return (teleport / graph.nodes().size()) + ((1 - teleport) * sum);
     }
 
-    private void sinksAdjust(final Graph graph) {
+    private void sinksAdjust(final Graph graph, final float teleport) {
         for (final int node : graph.nodes()) {
             if (graph.outgoing(node).size() == 0) {
                 final Float nodePR = this.prByNode.get(node);
-                final float residual = nodePR / (graph.nodes().size());
+                final float residual = (1 - teleport) * (nodePR / (graph.nodes().size()));
                 for (final int other : this.prByNode.keySet()) {
                     final float otherPR = this.tempPrByNode.get(other) + residual;
                     this.tempPrByNode.put(other, otherPR);

@@ -38,7 +38,7 @@ public class PageRank {
             }
 
             if (c.getComm().equals("teleport")){
-                teleport = (Integer)c.getArgs().get(0);
+                teleport = (Float) c.getArgs().get(0);
             }
 
             if (c.getComm().equals("calc")){
