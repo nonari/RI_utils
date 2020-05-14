@@ -20,11 +20,19 @@ public class Encoding {
     public static List<Integer> decodeGamma(final String n) {
         final List<Integer> list = new ArrayList<>();
         int pos = 0;
-        while (pos < n.length() - 1) {
-            final int k = n.indexOf('0');
-            final int rem = Integer.parseInt(n.substring(k + 1, k + k + 1), 2);
-            list.add((int)(Math.pow(2, k) + rem));
-            pos += k + k + 1;
+
+        String np = n;
+        while (pos < n.length()) {
+            final int k = np.indexOf('0');
+            if (k == 0) {
+                list.add(1);
+                pos++;
+            } else {
+                final int rem = Integer.parseInt(np.substring(k + 1, k + k + 1), 2);
+                list.add((int) (Math.pow(2, k) + rem));
+                pos += k + k + 1;
+            }
+            np = n.substring(pos);
         }
 
         return list;
@@ -41,17 +49,24 @@ public class Encoding {
         final List<Integer> list = new ArrayList<>();
 
         int pos = 0;
-        while (pos < n.length() - 1) {
-            final int k = n.indexOf('0');
-            final int gammaLimit = k * 2 + 1;
+        String np = n;
+        while (pos < n.length()) {
+            final int k = np.indexOf('0');
+            if (k == 0) {
+                list.add(1);
+                pos++;
+            } else {
+                final int gammaLimit = k * 2 + 1;
 
-            final String gamma = n.substring(0, gammaLimit);
-            final int l = decodeGamma(gamma).get(0) - 1;
+                final String gamma = np.substring(0, gammaLimit);
+                final int l = decodeGamma(gamma).get(0) - 1;
 
-            final int rem = Integer.parseInt("1" + n.substring(gammaLimit + 1, gammaLimit + l), 2);
+                final int rem = Integer.parseInt("1" + np.substring(gammaLimit + 1, gammaLimit + l), 2);
 
-            list.add((int) (Math.pow(2, l) + rem));
-            pos += gammaLimit + l + 1;
+                list.add((int) (Math.pow(2, l) + rem));
+                pos += gammaLimit + l;
+            }
+            np = n.substring(pos);
         }
 
         return list;
@@ -73,6 +88,7 @@ public class Encoding {
         return s;
     }
 
+    // FIXME
     public static List<Integer> decodeOmega(String n) {
         final List<Integer> list = new ArrayList<>();
         int pos = 0;
@@ -91,7 +107,7 @@ public class Encoding {
                 d = n.substring(curr, curr + 1);
                 curr++;
             }
-            pos += curr;
+            pos = curr - pos;
             list.add(k);
         }
 
