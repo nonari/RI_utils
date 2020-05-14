@@ -15,6 +15,13 @@ public class Evaluator {
         this.result = result;
     }
 
+    public float fScore(final int at, final float beta) {
+        final float precision = precision(at);
+        final float recall = recall(at);
+        final float bCube = beta * beta;
+        return (1 + bCube) * recall * precision / (bCube * precision + recall);
+    }
+
     public float precision(final int at) {
         return (float) relevantDocsFound(at) / at;
     }
@@ -36,12 +43,57 @@ public class Evaluator {
             precisionAt.add(rFound / (float)count);
             recallAt.add(rFound / (float)this.relev.size());
         }
+        System.out.println("Precision: " + precisionAt);
+        System.out.println("Recall: " + precisionAt);
 
         for (int point = 0; point <= 10; point++) {
             final int fPos = first(recallAt, point / 10F);
             final float p = max(precisionAt, fPos);
             System.out.println("At " + point/10F + ":" + p);
         }
+    }
+
+    public float ap(final int at) {
+        int relevant = 0;
+        double precisionAccum = 0;
+        int count = 0;
+
+        for (final int doc : this.result) {
+            if (count >= at) {
+                break;
+            }
+            count++;
+            if (this.relev.contains(doc)) {
+                relevant++;
+                precisionAccum += relevant / (double)count;
+                System.out.println(relevant / (double)count);
+            }
+        }
+        return (float)precisionAccum / relevant;
+    }
+
+    public float dcg(final List<Float> scores, final int at) {
+        float sum = 0;
+        int i = 1;
+        for (final float score : scores) {
+            if (i > at) {
+                break;
+            }
+            sum += score / log2(i+1);
+            System.out.println(sum);
+            i++;
+        }
+
+        return sum;
+    }
+
+    public float ndcg(final List<Float> scores, final int at) {
+        final float dcg = dcg(scores, at);
+        System.out.println();
+        scores.sort(Comparator.reverseOrder());
+        final float dcgIdeal = dcg(scores, at);
+
+        return dcg / dcgIdeal;
     }
 
     private int first(final List<Float> list, final float val) {
@@ -74,6 +126,10 @@ public class Evaluator {
         cutCopy.removeAll(this.relev);
 
         return at - cutCopy.size();
+    }
+
+    private static float log2(final int n) {
+        return (float)(Math.log10(n) / Math.log10(2));
     }
 
 }

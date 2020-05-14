@@ -12,7 +12,7 @@ public class Encoding {
         final int k = log2(n);
         final int rem = n % (int)(Math.pow(2, k));
 
-        final String unary = StringUtils.leftPad("1", k + 1, "0");
+        final String unary = StringUtils.leftPad("0", k + 1, "1");
 
         return unary + Integer.toBinaryString(rem);
     }
@@ -21,7 +21,7 @@ public class Encoding {
         final List<Integer> list = new ArrayList<>();
         int pos = 0;
         while (pos < n.length() - 1) {
-            final int k = n.indexOf('1');
+            final int k = n.indexOf('0');
             final int rem = Integer.parseInt(n.substring(k + 1, k + k + 1), 2);
             list.add((int)(Math.pow(2, k) + rem));
             pos += k + k + 1;
@@ -42,7 +42,7 @@ public class Encoding {
 
         int pos = 0;
         while (pos < n.length() - 1) {
-            final int k = n.indexOf('1');
+            final int k = n.indexOf('0');
             final int gammaLimit = k * 2 + 1;
 
             final String gamma = n.substring(0, gammaLimit);

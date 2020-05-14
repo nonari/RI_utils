@@ -65,7 +65,7 @@ public class PageRankCalculator {
         }
     }
 
-    public void power(final Graph graph, final int iterations) {
+    public void power(final Graph graph, final float teleport, final int iterations) {
         final Set<Integer> nodes = graph.nodes();
         final int size = nodes.size();
         final float[][] h = new float[size][size];
@@ -87,9 +87,16 @@ public class PageRankCalculator {
 
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
-                System.out.print(h[j][i] + ",");
+                System.out.print(h[i][j] + ",");
             }
             System.out.println();
+        }
+
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                h[i][j] *= 1 - teleport;
+                h[i][j] += teleport / graph.nodes().size();
+            }
         }
 
         final Float[] prTemp = new Float[size];
