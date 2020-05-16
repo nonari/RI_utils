@@ -1,7 +1,6 @@
 package org.nonari.fic.ri.utils.page_rank;
 
 
-import java.lang.reflect.Array;
 import java.util.*;
 
 public class PageRankCalculator {
@@ -85,18 +84,19 @@ public class PageRankCalculator {
             pr[node - 1] = 1F / size;
         }
 
-        for (int i = 0; i < size; i++) {
-            for (int j = 0; j < size; j++) {
-                System.out.print(h[i][j] + ",");
-            }
-            System.out.println();
-        }
 
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
                 h[i][j] *= 1 - teleport;
                 h[i][j] += teleport / graph.nodes().size();
             }
+        }
+
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                System.out.print(h[i][j] + ",");
+            }
+            System.out.println();
         }
 
         final Float[] prTemp = new Float[size];

@@ -88,14 +88,15 @@ public class Encoding {
         return s;
     }
 
-    // FIXME
     public static List<Integer> decodeOmega(String n) {
         final List<Integer> list = new ArrayList<>();
         int pos = 0;
-        while (pos < n.length() - 1) {
+        String p;
+        while (pos < n.length()) {
             int k = 1;
-            int curr = pos;
-            String d = n.substring(pos, pos + 1);
+            int curr = 1;
+            p = n.substring(pos);
+            String d = p.substring(0, 1);
             while (d.equals("1")) {
                 if (k == 1) {
                     curr = 1;
@@ -104,10 +105,10 @@ public class Encoding {
                 final int temp = Integer.parseInt(d + n.substring(curr, curr + k - 1), 2);
                 curr += k - 1;
                 k = temp;
-                d = n.substring(curr, curr + 1);
+                d = p.substring(curr, curr + 1);
                 curr++;
             }
-            pos = curr - pos;
+            pos = curr + pos;
             list.add(k);
         }
 

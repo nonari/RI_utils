@@ -44,6 +44,21 @@
                             <finalName>encoding</finalName>
                         </configuration>
                     </execution>
+                    <execution>
+                        <id>build-evaluation</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <transformers>
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <mainClass>org.nonari.fic.ri.utils.evaluation.EvaluatorMain</mainClass>
+                                </transformer>
+                            </transformers>
+                            <finalName>evaluator</finalName>
+                        </configuration>
+                    </execution>
                 </executions>
             </plugin>
         </plugins>
@@ -59,6 +74,12 @@
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
             <version>3.10</version>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>5.6.2</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 

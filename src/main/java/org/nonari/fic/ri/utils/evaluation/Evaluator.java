@@ -1,7 +1,6 @@
 package org.nonari.fic.ri.utils.evaluation;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -28,6 +27,10 @@ public class Evaluator {
 
     public float recall(final int at) {
         return (float) relevantDocsFound(at) / this.relev.size();
+    }
+
+    public float rPrecision() {
+        return (float) relevantDocsFound(this.result.size()) / this.relev.size();
     }
 
     public void recallStandard() {
