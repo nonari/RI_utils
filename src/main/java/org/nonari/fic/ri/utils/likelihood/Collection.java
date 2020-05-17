@@ -16,7 +16,7 @@ public class Collection {
     public void add(final String doc) {
         final String[] words = doc.split(" ");
 
-        docs.put(i, Arrays.asList(words));
+        this.docs.put(this.i, Arrays.asList(words));
 
         final HashSet<String> vocabulary = new HashSet<>(Arrays.asList(words));
         for (final String word : vocabulary) {
@@ -30,12 +30,15 @@ public class Collection {
             updateDf(word);
         }
 
+        i++;
     }
 
     private void putTf(final String word, final int count) {
-        final Map<Integer, Integer> tfByDoc = new HashMap<>();
-        tfByDoc.put(i, count);
-        this.tfs.put(word, tfByDoc);
+        if (!this.dfs.containsKey(word)) {
+            final Map<Integer, Integer> tfByDoc = new HashMap<>();
+            this.tfs.put(word, tfByDoc);
+        }
+        this.tfs.get(word).put(this.i, count);
     }
 
     private void updateDf(final String word) {
