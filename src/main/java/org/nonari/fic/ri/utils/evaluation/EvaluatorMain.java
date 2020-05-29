@@ -49,6 +49,8 @@ public class EvaluatorMain {
             System.out.println(evaluator.recall(at));
         } else if ("rs".equals(mode)) {
             evaluator.recallStandard();
+        } else if ("rp".equals(mode)) {
+            System.out.println(evaluator.rPrecision());
         } else if ("ap".equals(mode)) {
             System.out.println(evaluator.ap(at));
         } else if ("f".equals(mode)) {

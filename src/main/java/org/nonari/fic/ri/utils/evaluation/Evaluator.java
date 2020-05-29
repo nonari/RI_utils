@@ -30,7 +30,7 @@ public class Evaluator {
     }
 
     public float rPrecision() {
-        return (float) relevantDocsFound(this.result.size()) / this.relev.size();
+        return precision(this.relev.size());
     }
 
     public void recallStandard() {
@@ -72,7 +72,7 @@ public class Evaluator {
                 System.out.println(relevant / (double)count);
             }
         }
-        return (float)precisionAccum / relevant;
+        return (float)precisionAccum / this.relev.size();
     }
 
     public float dcg(final List<Float> scores, final int at) {
