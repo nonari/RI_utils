@@ -18,6 +18,8 @@ public class Evaluator {
         final float precision = precision(at);
         final float recall = recall(at);
         final float bCube = beta * beta;
+        System.out.println("((" + 1 + " + " + beta + "^2) " + "*" + recall + "*" + precision + ") /"
+        + " (" + beta + "^2 * " + precision + "+" + recall + ")");
         return (1 + bCube) * recall * precision / (bCube * precision + recall);
     }
 
@@ -68,11 +70,15 @@ public class Evaluator {
             count++;
             if (this.relev.contains(doc)) {
                 relevant++;
-                precisionAccum += relevant / (double)count;
-                System.out.println(relevant / (double)count);
+                final double point = relevant / (double) count;
+                precisionAccum += point;
+                System.out.println(relevant + " / " + count + " = " + point);
             }
         }
-        return (float)precisionAccum / this.relev.size();
+        final double res = precisionAccum / this.relev.size();
+        System.out.println(precisionAccum + " / " + this.relev.size() + " = " + res);
+
+        return (float)res;
     }
 
     public float dcg(final List<Float> scores, final int at) {
@@ -82,8 +88,14 @@ public class Evaluator {
             if (i > at) {
                 break;
             }
-            sum += score / log2(i+1);
-            System.out.println(sum);
+            if (i == 1) {
+                sum = score;
+                i++;
+                continue;
+            }
+            final float term = score / log2(i);
+            sum += term;
+            System.out.println(score + " / " + log2(i) + " = " + term);
             i++;
         }
 
@@ -92,9 +104,10 @@ public class Evaluator {
 
     public float ndcg(final List<Float> scores, final int at) {
         final float dcg = dcg(scores, at);
-        System.out.println();
+        System.out.println("=" + dcg);
         scores.sort(Comparator.reverseOrder());
         final float dcgIdeal = dcg(scores, at);
+        System.out.println("=" + dcgIdeal);
 
         return dcg / dcgIdeal;
     }
@@ -133,6 +146,10 @@ public class Evaluator {
 
     private static float log2(final int n) {
         return (float)(Math.log10(n) / Math.log10(2));
+    }
+
+    private static float round(final float n) {
+        return ((int) (n * 100)) / 100F;
     }
 
 }

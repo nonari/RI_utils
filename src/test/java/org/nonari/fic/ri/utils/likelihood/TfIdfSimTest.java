@@ -9,11 +9,12 @@ class TfIdfSimTest {
     @Test
     public void main() {
         final Collection coll = new Collection();
-        coll.add("Revenue down by the second semester");
-        coll.add("Revenue down by the second semester");
+        coll.add("scary green crocodile");
+        coll.add("scary green big");
+        coll.add("small crocodile");
 
         final TfIdfSim tfIdfSim = new TfIdfSim(coll);
-        tfIdfSim.tfIdf("revenue down");
+        tfIdfSim.tfIdf("big green crocodile");
     }
 
 }

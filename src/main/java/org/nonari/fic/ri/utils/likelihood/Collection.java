@@ -54,10 +54,31 @@ public class Collection {
 
     public int tf(final String word, final int doc) {
         if (this.tfs.containsKey(word)) {
-            return this.tfs.get(word).get(doc);
-        } else {
-            return 0;
+            final Map<Integer, Integer> tfByDoc = this.tfs.get(word);
+            if (tfByDoc.containsKey(doc)) {
+                return tfByDoc.get(doc);
+            }
         }
+
+        return 0;
+    }
+
+    public int tfInColl(final String word) {
+        int count = 0;
+        for (final int docId : this.docs.keySet()) {
+            count += tf(word, docId);
+        }
+
+        return count;
+    }
+
+    public int wordsInColl() {
+        int count = 0;
+        for (final List<String> doc : this.docs.values()) {
+            count += doc.size();
+        }
+
+        return count;
     }
 
     public int df(final String word) {
