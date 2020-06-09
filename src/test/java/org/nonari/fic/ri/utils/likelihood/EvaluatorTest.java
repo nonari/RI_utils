@@ -29,7 +29,7 @@ public class EvaluatorTest {
     @Test
     public void st() {
         final List<Integer> found = Arrays.asList(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15);
-        final List<Integer> relevant = Arrays.asList(2, 4, 5, 8, 14);
+        final List<Integer> relevant = Arrays.asList(2, 4, 5, 8, 14, 15);
         new Evaluator(found, relevant).recallStandard();
     }
 

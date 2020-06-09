@@ -1,5 +1,7 @@
 package org.nonari.fic.ri.utils.evaluation;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -45,17 +47,27 @@ public class Evaluator {
                 rFound++;
             }
             count++;
-            precisionAt.add(rFound / (float)count);
-            recallAt.add(rFound / (float)this.relev.size());
+            precisionAt.add((float)rFound / count);
+            recallAt.add((float)rFound / this.relev.size());
         }
-        System.out.println("Precision: " + precisionAt);
-        System.out.println("Recall: " + precisionAt);
+        tabulate(precisionAt, recallAt);
 
         for (int point = 0; point <= 10; point++) {
             final int fPos = first(recallAt, point / 10F);
             final float p = max(precisionAt, fPos);
             System.out.println("At " + point/10F + ":" + p);
         }
+    }
+
+    private void tabulate(final List<Float> precisionAt, List<Float> recallAt) {
+        for (final float n : recallAt) {
+            System.out.print(StringUtils.rightPad(Float.toString(round(n)), 6));
+        }
+        System.out.println();
+        for (final float n : precisionAt) {
+            System.out.print(StringUtils.rightPad(Float.toString(round(n)), 6));
+        }
+        System.out.println();
     }
 
     public float ap(final int at) {
