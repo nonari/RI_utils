@@ -1,6 +1,8 @@
 package org.nonari.fic.ri.utils.page_rank;
 
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.*;
 
 public class PageRankCalculator {
@@ -27,10 +29,23 @@ public class PageRankCalculator {
             }
             sinksAdjust(graph, teleport);
             this.prByNode.putAll(this.tempPrByNode);
-            for (final int node: graph.nodes()) {
-                System.out.println("Node " + node + " : " + this.prByNode.get(node));
-            }
+            tabulateResults(graph);
+            System.out.println("----------------------------------------");
         }
+    }
+
+    private void tabulateResults(final Graph graph) {
+        String d = "";
+        for (final int node: graph.nodes()) {
+            d += StringUtils.rightPad("Node " + node, 7) + "|";
+        }
+        System.out.println(d);
+        d = "";
+        for (final int node: graph.nodes()) {
+            final String smooth = String.format("%.3f", this.prByNode.get(node));
+            d += StringUtils.rightPad(smooth, 7) + "|";
+        }
+        System.out.println(d);
     }
 
     private void initPrByNode(final Graph graph) {
@@ -41,10 +56,12 @@ public class PageRankCalculator {
     }
 
     private float calcNodePR(final Graph graph, int node, float teleport){
+        System.out.println("FOR node: " + node);
         final List<Integer> incoming = graph.incoming(node);
         float sum = 0;
         for (final int page : incoming) {
             final float ratio = this.prByNode.get(page) / graph.outgoing(page).size();
+            System.out.println(page + " -> " + this.prByNode.get(page) + "/" + graph.outgoing(page).size() + " = " + ratio);
             sum += ratio;
         }
 
@@ -56,6 +73,7 @@ public class PageRankCalculator {
             if (graph.outgoing(node).size() == 0) {
                 final Float nodePR = this.prByNode.get(node);
                 final float residual = (1 - teleport) * (nodePR / (graph.nodes().size()));
+                System.out.println("Residual = " + residual);
                 for (final int other : this.prByNode.keySet()) {
                     final float otherPR = this.tempPrByNode.get(other) + residual;
                     this.tempPrByNode.put(other, otherPR);

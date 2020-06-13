@@ -11,7 +11,7 @@ public class Encoding {
     public static String encodeGamma(final int n) {
         final int k = log2(n);
         final int rem = n % (int)(Math.pow(2, k));
-
+        System.out.println("k=" + k + " r=" + rem);
         final String unary = StringUtils.leftPad("0", k + 1, "1");
 
         return unary + Integer.toBinaryString(rem);
@@ -30,6 +30,7 @@ public class Encoding {
             } else {
                 final int rem = Integer.parseInt(np.substring(k + 1, k + k + 1), 2);
                 list.add((int) (Math.pow(2, k) + rem));
+                System.out.println("2^" + k + " + " + rem);
                 pos += k + k + 1;
             }
             np = n.substring(pos);
@@ -60,9 +61,8 @@ public class Encoding {
 
                 final String gamma = np.substring(0, gammaLimit);
                 final int l = decodeGamma(gamma).get(0) - 1;
-
+                System.out.println("gamma - 1 = " + l);
                 final int rem = Integer.parseInt("1" + np.substring(gammaLimit + 1, gammaLimit + l), 2);
-
                 list.add((int) (Math.pow(2, l) + rem));
                 pos += gammaLimit + l;
             }
